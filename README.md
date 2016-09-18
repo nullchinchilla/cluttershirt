@@ -1,0 +1,7 @@
+## ClutterShirt: poor man's ScrambleSuit
+
+ClutterShirt is a minimal-overhead protocol obfuscation scheme that uses a variant of the [ScrambleSuit](http://www.cs.kau.se/philwint/scramblesuit/wpes2013.pdf) handshake, but does not use any of ScrambleSuit's attempts to hide packet length and other traffic patterns. Instead, it is solely intended to prevent regex-based protocol classification and active probing.
+
+This is because in practice, even powerful nation-states such as China are not observed to have packet statistics-based protocol classification filters with a small enough false-positive rate to eliminate any use of active probing. For example, even obfs2 and obfs3 were defeated by active probing, not immediate blocking. Thus, randomizing the contents of packets should be enough to avoid blocking, especially in scenarios where a highly steganographic but slow channel (for example, domain fronting) can distribute new addresses on demand. This allows ClutterShirt to have a negligible performance impact.
+
+**Do not rely on ClutterShirt for security!** ClutterShirt does not attempt any form of integrity protection, so that it does not need to segment the data or attach any MACs, reducing amortized bandwidth overhead to zero. In addition, it uses the insecure RC4 stream cipher and a weak 1536-bit Diffie-Hellman exchange. Applications needing any measure of security should tunnel something like MiniSS or TLS over ClutterShirt.
